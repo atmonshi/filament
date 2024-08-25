@@ -39,6 +39,8 @@ class Repeater extends Field implements Contracts\CanConcealComponents, Contract
 
     protected bool | Closure $isReorderable = true;
 
+    protected bool | Closure $isGroupedActions = true;
+
     protected bool | Closure $isReorderableWithDragAndDrop = true;
 
     protected bool | Closure $isReorderableWithButtons = false;
@@ -704,6 +706,13 @@ class Repeater extends Field implements Contracts\CanConcealComponents, Contract
         return $this;
     }
 
+    public function groupedActions(bool | Closure $condition = true): static
+    {
+        $this->isGroupedActions = $condition;
+
+        return $this;
+    }
+
     /**
      * @deprecated Use `addable()` instead.
      */
@@ -806,6 +815,11 @@ class Repeater extends Field implements Contracts\CanConcealComponents, Contract
         }
 
         return (bool) $this->evaluate($this->isReorderable);
+    }
+
+    public function isGroupedActions(): bool
+    {
+        return (bool) $this->evaluate($this->isGroupedActions);
     }
 
     public function isReorderableWithDragAndDrop(): bool
