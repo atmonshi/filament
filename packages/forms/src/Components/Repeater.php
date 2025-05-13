@@ -71,8 +71,6 @@ class Repeater extends Field implements Contracts\CanConcealComponents, Contract
 
     protected ?Closure $modifyDeleteActionUsing = null;
 
-    protected ?Closure $modifyAllActionsUsing = null;
-
     protected ?Closure $modifyMoveDownActionUsing = null;
 
     protected ?Closure $modifyMoveUpActionUsing = null;
@@ -148,7 +146,6 @@ class Repeater extends Field implements Contracts\CanConcealComponents, Contract
             fn (Repeater $component): Action => $component->getCollapseAction(),
             fn (Repeater $component): Action => $component->getCollapseAllAction(),
             fn (Repeater $component): Action => $component->getDeleteAction(),
-            fn (Repeater $component): ActionGroup => $component->getAllActions(),
             fn (Repeater $component): Action => $component->getExpandAction(),
             fn (Repeater $component): Action => $component->getExpandAllAction(),
             fn (Repeater $component): Action => $component->getMoveDownAction(),
@@ -387,21 +384,6 @@ class Repeater extends Field implements Contracts\CanConcealComponents, Contract
         return $action;
     }
 
-    public function getAllActions(): ActionGroup
-    {
-        $action = ActionGroup::make([
-            $this->getDeleteAction(),
-        ]);
-
-        /*if ($this->modifyAllActionsUsing) {
-            $action = $this->evaluate($this->modifyAllActionsUsing, [
-                'action' => $action,
-            ]) ?? $action;
-        }*/
-
-        return $action;
-    }
-
     public function deleteAction(?Closure $callback): static
     {
         $this->modifyDeleteActionUsing = $callback;
@@ -409,21 +391,9 @@ class Repeater extends Field implements Contracts\CanConcealComponents, Contract
         return $this;
     }
 
-    public function allActions(?Closure $callback): static
-    {
-        $this->modifyAllActionsUsing = $callback;
-
-        return $this;
-    }
-
     public function getDeleteActionName(): string
     {
         return 'delete';
-    }
-
-    public function getAllActionsName(): string
-    {
-        return 'all';
     }
 
     public function getMoveDownAction(): Action

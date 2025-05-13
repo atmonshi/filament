@@ -3,7 +3,6 @@
 namespace Filament\Forms\Components\Concerns;
 
 use Closure;
-use Filament\Actions\ActionGroup;
 use Filament\Forms\Components\Actions\Action;
 use Filament\Forms\Components\Contracts\HasAffixActions;
 use Filament\Forms\Components\Contracts\HasExtraItemActions;
@@ -98,9 +97,7 @@ trait HasActions
 
         foreach ($this->actions as $registeredAction) {
             foreach (Arr::wrap($this->evaluate($registeredAction)) as $action) {
-                if(!$action instanceof ActionGroup){
-                    $this->cachedActions[$action->getName() ?? '111'] = $this->prepareAction($action);
-                }
+                $this->cachedActions[$action->getName() ?? '111'] = $this->prepareAction($action);
             }
         }
 
