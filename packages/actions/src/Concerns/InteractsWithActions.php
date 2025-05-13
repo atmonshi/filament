@@ -102,8 +102,6 @@ trait InteractsWithActions
             $result = $action->callAfter() ?? $result;
 
             $this->afterActionCalled();
-
-            $action->commitDatabaseTransaction();
         } catch (Halt $exception) {
             $exception->shouldRollbackDatabaseTransaction() ?
                 $action->rollBackDatabaseTransaction() :
@@ -131,6 +129,8 @@ trait InteractsWithActions
             throw $exception;
         }
 
+        $action->commitDatabaseTransaction();
+
         if (store($this)->has('redirect')) {
             return $result;
         }
@@ -151,9 +151,7 @@ trait InteractsWithActions
         return $result;
     }
 
-    protected function afterActionCalled(): void
-    {
-    }
+    protected function afterActionCalled(): void {}
 
     /**
      * @param  array<string, mixed>  $arguments
@@ -252,9 +250,7 @@ trait InteractsWithActions
         ];
     }
 
-    protected function configureAction(Action $action): void
-    {
-    }
+    protected function configureAction(Action $action): void {}
 
     public function getMountedAction(): ?Action
     {
@@ -402,7 +398,7 @@ trait InteractsWithActions
         $this->mountedActionsData = [];
     }
 
-    public function unmountAction(bool $shouldCancelParentActions = true): void
+    public function unmountAction(bool $shouldCancelParentActions = true, bool $shouldCloseModal = true): void
     {
         $action = $this->getMountedAction();
 
@@ -426,7 +422,9 @@ trait InteractsWithActions
         }
 
         if (! count($this->mountedActions)) {
-            $this->closeActionModal();
+            if ($shouldCloseModal) {
+                $this->closeActionModal();
+            }
 
             $action?->clearRecordAfter();
 

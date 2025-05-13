@@ -62,9 +62,7 @@ trait HasActions
     #[Url(as: 'tableActionRecord')]
     public $defaultTableActionRecord = null;
 
-    protected function configureTableAction(Action $action): void
-    {
-    }
+    protected function configureTableAction(Action $action): void {}
 
     /**
      * @param  array<string, mixed>  $arguments
@@ -115,8 +113,6 @@ trait HasActions
             ]);
 
             $result = $action->callAfter() ?? $result;
-
-            $action->commitDatabaseTransaction();
         } catch (Halt $exception) {
             $exception->shouldRollbackDatabaseTransaction() ?
                 $action->rollBackDatabaseTransaction() :
@@ -143,6 +139,8 @@ trait HasActions
 
             throw $exception;
         }
+
+        $action->commitDatabaseTransaction();
 
         if (store($this)->has('redirect')) {
             return $result;
@@ -319,7 +317,7 @@ trait HasActions
         $this->mountedTableActionsData = [];
     }
 
-    public function unmountTableAction(bool $shouldCancelParentActions = true): void
+    public function unmountTableAction(bool $shouldCancelParentActions = true, bool $shouldCloseModal = true): void
     {
         $action = $this->getMountedTableAction();
 
@@ -343,7 +341,9 @@ trait HasActions
         }
 
         if (! count($this->mountedTableActions)) {
-            $this->closeTableActionModal();
+            if ($shouldCloseModal) {
+                $this->closeTableActionModal();
+            }
 
             $action?->record(null);
             $this->mountedTableActionRecord(null);
