@@ -331,7 +331,7 @@ class Repeater extends Field implements Contracts\CanConcealComponents, Contract
             ->size(ActionSize::Small)
             ->visible(fn (Repeater $component): bool => $component->isCloneable());
 
-        if($this->isActionsGrouped()) {
+        if ($this->isActionsGrouped()) {
             $action->grouped();
         }
 
@@ -374,7 +374,7 @@ class Repeater extends Field implements Contracts\CanConcealComponents, Contract
             ->size(ActionSize::Small)
             ->visible(fn (Repeater $component): bool => $component->isDeletable());
 
-        if($this->isActionsGrouped()) {
+        if ($this->isActionsGrouped()) {
             $action->grouped();
         }
 

@@ -98,7 +98,7 @@ trait HasActions
 
         foreach ($this->actions as $registeredAction) {
             foreach (Arr::wrap($this->evaluate($registeredAction)) as $action) {
-                if(!$action instanceof ActionGroup){
+                if (! $action instanceof ActionGroup) {
                     $this->cachedActions[$action->getName() ?? '111'] = $this->prepareAction($action);
                 }
             }
