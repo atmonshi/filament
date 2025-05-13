@@ -3,7 +3,6 @@
 namespace Filament\Forms\Components;
 
 use Closure;
-use Filament\Actions\ActionGroup;
 use Filament\Forms\ComponentContainer;
 use Filament\Forms\Components\Actions\Action;
 use Filament\Forms\Contracts\HasForms;
@@ -328,7 +327,7 @@ class Repeater extends Field implements Contracts\CanConcealComponents, Contract
             ->size(ActionSize::Small)
             ->visible(fn (Repeater $component): bool => $component->isCloneable());
 
-        if($this->isActionsGrouped()) {
+        if ($this->isActionsGrouped()) {
             $action->grouped();
         }
 
@@ -371,7 +370,7 @@ class Repeater extends Field implements Contracts\CanConcealComponents, Contract
             ->size(ActionSize::Small)
             ->visible(fn (Repeater $component): bool => $component->isDeletable());
 
-        if($this->isActionsGrouped()) {
+        if ($this->isActionsGrouped()) {
             $action->grouped();
         }
 
