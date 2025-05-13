@@ -164,32 +164,32 @@
                                         class="fi-fo-repeater-item-header-end-actions"
                                     >
                                         @capture($actions)
-                                        @foreach ($visibleExtraItemActions as $extraItemAction)
-                                            <li x-on:click.stop>
-                                                {{ $extraItemAction(['item' => $uuid]) }}
-                                            </li>
-                                        @endforeach
+                                            @foreach ($visibleExtraItemActions as $extraItemAction)
+                                                <li x-on:click.stop>
+                                                    {{ $extraItemAction(['item' => $uuid]) }}
+                                                </li>
+                                            @endforeach
 
-                                        @if ($cloneActionIsVisible)
-                                            <li x-on:click.stop>
-                                                {{ $cloneAction }}
-                                            </li>
-                                        @endif
+                                            @if ($cloneActionIsVisible)
+                                                <li x-on:click.stop>
+                                                    {{ $cloneAction }}
+                                                </li>
+                                            @endif
 
-                                        @if ($deleteActionIsVisible)
-                                            <li x-on:click.stop>
-                                                {{ $deleteAction }}
-                                            </li>
-                                        @endif
+                                            @if ($deleteActionIsVisible)
+                                                <li x-on:click.stop>
+                                                    {{ $deleteAction }}
+                                                </li>
+                                            @endif
                                         @endcapture
 
                                         @if($isActionsGrouped())
                                             <x-filament::dropdown>
                                                 <x-slot name="trigger" x-on:click.stop>
                                                     <x-filament::icon
-                                                            alias="forms::repeater.groupped.actions"
-                                                            icon="heroicon-o-ellipsis-vertical"
-                                                            class="h-5 w-5 text-gray-500 dark:text-gray-400"
+                                                        alias="forms::repeater.groupped.actions"
+                                                        icon="heroicon-o-ellipsis-vertical"
+                                                        class="h-5 w-5 text-gray-500 dark:text-gray-400"
                                                     />
                                                 </x-slot>
 
