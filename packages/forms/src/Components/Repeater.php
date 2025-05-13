@@ -342,7 +342,7 @@ class Repeater extends Field implements CanConcealComponents, HasExtraItemAction
             ->size(Size::Small)
             ->visible(fn (Repeater $component): bool => $component->isCloneable());
 
-        if($this->isActionsGrouped()) {
+        if ($this->isActionsGrouped()) {
             $action->grouped();
         }
 
@@ -387,7 +387,7 @@ class Repeater extends Field implements CanConcealComponents, HasExtraItemAction
             ->size(Size::Small)
             ->visible(fn (Repeater $component): bool => $component->isDeletable());
 
-        if($this->isActionsGrouped()) {
+        if ($this->isActionsGrouped()) {
             $action->grouped();
         }
 
