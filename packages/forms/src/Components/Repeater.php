@@ -3,6 +3,7 @@
 namespace Filament\Forms\Components;
 
 use Closure;
+use Filament\Actions\ActionGroup;
 use Filament\Forms\ComponentContainer;
 use Filament\Forms\Components\Actions\Action;
 use Filament\Forms\Contracts\HasForms;
@@ -40,7 +41,7 @@ class Repeater extends Field implements Contracts\CanConcealComponents, Contract
 
     protected bool | Closure $isReorderable = true;
 
-    protected bool | Closure $isGroupedActions = true;
+    protected bool | Closure $isGroupedActions = false;
 
     protected bool | Closure $isReorderableWithDragAndDrop = true;
 
@@ -69,6 +70,8 @@ class Repeater extends Field implements Contracts\CanConcealComponents, Contract
     protected ?Closure $modifyCloneActionUsing = null;
 
     protected ?Closure $modifyDeleteActionUsing = null;
+
+    protected ?Closure $modifyAllActionsUsing = null;
 
     protected ?Closure $modifyMoveDownActionUsing = null;
 
@@ -145,6 +148,7 @@ class Repeater extends Field implements Contracts\CanConcealComponents, Contract
             fn (Repeater $component): Action => $component->getCollapseAction(),
             fn (Repeater $component): Action => $component->getCollapseAllAction(),
             fn (Repeater $component): Action => $component->getDeleteAction(),
+            fn (Repeater $component): ActionGroup => $component->getAllActions(),
             fn (Repeater $component): Action => $component->getExpandAction(),
             fn (Repeater $component): Action => $component->getExpandAllAction(),
             fn (Repeater $component): Action => $component->getMoveDownAction(),
@@ -327,6 +331,10 @@ class Repeater extends Field implements Contracts\CanConcealComponents, Contract
             ->size(ActionSize::Small)
             ->visible(fn (Repeater $component): bool => $component->isCloneable());
 
+        if($this->isActionsGrouped()) {
+            $action->grouped();
+        }
+
         if ($this->modifyCloneActionUsing) {
             $action = $this->evaluate($this->modifyCloneActionUsing, [
                 'action' => $action,
@@ -366,11 +374,30 @@ class Repeater extends Field implements Contracts\CanConcealComponents, Contract
             ->size(ActionSize::Small)
             ->visible(fn (Repeater $component): bool => $component->isDeletable());
 
+        if($this->isActionsGrouped()) {
+            $action->grouped();
+        }
+
         if ($this->modifyDeleteActionUsing) {
             $action = $this->evaluate($this->modifyDeleteActionUsing, [
                 'action' => $action,
             ]) ?? $action;
         }
+
+        return $action;
+    }
+
+    public function getAllActions(): ActionGroup
+    {
+        $action = ActionGroup::make([
+            $this->getDeleteAction(),
+        ]);
+
+        /*if ($this->modifyAllActionsUsing) {
+            $action = $this->evaluate($this->modifyAllActionsUsing, [
+                'action' => $action,
+            ]) ?? $action;
+        }*/
 
         return $action;
     }
@@ -382,9 +409,21 @@ class Repeater extends Field implements Contracts\CanConcealComponents, Contract
         return $this;
     }
 
+    public function allActions(?Closure $callback): static
+    {
+        $this->modifyAllActionsUsing = $callback;
+
+        return $this;
+    }
+
     public function getDeleteActionName(): string
     {
         return 'delete';
+    }
+
+    public function getAllActionsName(): string
+    {
+        return 'all';
     }
 
     public function getMoveDownAction(): Action
@@ -838,7 +877,7 @@ class Repeater extends Field implements Contracts\CanConcealComponents, Contract
         return (bool) $this->evaluate($this->isReorderable);
     }
 
-    public function isGroupedActions(): bool
+    public function isActionsGrouped(): bool
     {
         return (bool) $this->evaluate($this->isGroupedActions);
     }

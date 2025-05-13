@@ -55,6 +55,9 @@ trait HasExtraItemActions
                         ->defaultSize(ActionSize::Small)
                         ->defaultView(Action::ICON_BUTTON_VIEW),
                 );
+                if($this->isActionsGrouped()) {
+                    $action->grouped();
+                }
             }
         }
 
