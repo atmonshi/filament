@@ -34,6 +34,7 @@ class Repeater extends Field implements CanConcealComponents, HasExtraItemAction
     use Concerns\CanGenerateUuids;
     use Concerns\CanLimitItemsLength;
     use Concerns\HasExtraItemActions;
+    use Concerns\CanGroupActions;
     use HasContainerGridLayout;
     use HasReorderAnimationDuration;
 
@@ -46,8 +47,6 @@ class Repeater extends Field implements CanConcealComponents, HasExtraItemAction
     protected bool | Closure $isDeletable = true;
 
     protected bool | Closure $isReorderable = true;
-
-    protected bool | Closure $isGroupedActions = false;
 
     protected bool | Closure $isReorderableWithDragAndDrop = true;
 
@@ -758,13 +757,6 @@ class Repeater extends Field implements CanConcealComponents, HasExtraItemAction
         return $this;
     }
 
-    public function groupedActions(bool | Closure $condition = true): static
-    {
-        $this->isGroupedActions = $condition;
-
-        return $this;
-    }
-
     /**
      * @deprecated Use `addable()` instead.
      */
@@ -862,11 +854,6 @@ class Repeater extends Field implements CanConcealComponents, HasExtraItemAction
         }
 
         return (bool) $this->evaluate($this->isReorderable);
-    }
-
-    public function isActionsGrouped(): bool
-    {
-        return (bool) $this->evaluate($this->isGroupedActions);
     }
 
     public function isReorderableWithDragAndDrop(): bool
