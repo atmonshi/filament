@@ -187,7 +187,7 @@
                                             <x-filament::dropdown>
                                                 <x-slot name="trigger" x-on:click.stop>
                                                     <x-filament::icon
-                                                        alias="forms::repeater.groupped.actions"
+                                                        alias="forms::repeater.grouped.action"
                                                         icon="heroicon-o-ellipsis-vertical"
                                                         class="h-5 w-5 text-gray-500 dark:text-gray-400"
                                                     />

@@ -180,28 +180,48 @@
                                     <ul
                                         class="fi-fo-builder-item-header-end-actions"
                                     >
-                                        @foreach ($visibleExtraItemActions as $extraItemAction)
-                                            <li x-on:click.stop>
-                                                {{ $extraItemAction(['item' => $itemKey]) }}
-                                            </li>
-                                        @endforeach
+                                        @capture($actions)
+                                            @foreach ($visibleExtraItemActions as $extraItemAction)
+                                                <li x-on:click.stop>
+                                                    {{ $extraItemAction(['item' => $itemKey]) }}
+                                                </li>
+                                            @endforeach
 
-                                        @if ($editActionIsVisible)
-                                            <li x-on:click.stop>
-                                                {{ $editAction }}
-                                            </li>
-                                        @endif
+                                            @if ($editActionIsVisible)
+                                                <li x-on:click.stop>
+                                                    {{ $editAction }}
+                                                </li>
+                                            @endif
 
-                                        @if ($cloneActionIsVisible)
-                                            <li x-on:click.stop>
-                                                {{ $cloneAction }}
-                                            </li>
-                                        @endif
+                                            @if ($cloneActionIsVisible)
+                                                <li x-on:click.stop>
+                                                    {{ $cloneAction }}
+                                                </li>
+                                            @endif
 
-                                        @if ($deleteActionIsVisible)
-                                            <li x-on:click.stop>
-                                                {{ $deleteAction }}
-                                            </li>
+                                            @if ($deleteActionIsVisible)
+                                                <li x-on:click.stop>
+                                                    {{ $deleteAction }}
+                                                </li>
+                                            @endif
+                                        @endcapture
+
+                                        @if($isActionsGrouped())
+                                            <x-filament::dropdown>
+                                                <x-slot name="trigger" x-on:click.stop>
+                                                    <x-filament::icon
+                                                        alias="forms::builder.grouped.action"
+                                                        icon="heroicon-o-ellipsis-vertical"
+                                                        class="h-5 w-5 text-gray-500 dark:text-gray-400"
+                                                    />
+                                                </x-slot>
+
+                                                <x-filament::dropdown.list>
+                                                    {{ $actions() }}
+                                                </x-filament::dropdown.list>
+                                            </x-filament::dropdown>
+                                        @else
+                                            {{ $actions() }}
                                         @endif
 
                                         @if ($isCollapsible)

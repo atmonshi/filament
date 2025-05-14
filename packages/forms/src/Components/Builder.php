@@ -28,6 +28,7 @@ class Builder extends Field implements CanConcealComponents, HasExtraItemActions
     use Concerns\CanGenerateUuids;
     use Concerns\CanLimitItemsLength;
     use Concerns\HasExtraItemActions;
+    use Concerns\CanGroupActions;
     use HasReorderAnimationDuration;
 
     /**
@@ -337,6 +338,10 @@ class Builder extends Field implements CanConcealComponents, HasExtraItemActions
             ->size(Size::Small)
             ->visible(fn (Builder $component): bool => $component->isCloneable());
 
+        if($this->isActionsGrouped()) {
+            $action->grouped();
+        }
+
         if ($this->modifyCloneActionUsing) {
             $action = $this->evaluate($this->modifyCloneActionUsing, [
                 'action' => $action,
@@ -377,6 +382,10 @@ class Builder extends Field implements CanConcealComponents, HasExtraItemActions
             ->iconButton()
             ->size(Size::Small)
             ->visible(fn (Builder $component): bool => $component->isDeletable());
+
+        if($this->isActionsGrouped()) {
+            $action->grouped();
+        }
 
         if ($this->modifyDeleteActionUsing) {
             $action = $this->evaluate($this->modifyDeleteActionUsing, [
@@ -685,6 +694,10 @@ class Builder extends Field implements CanConcealComponents, HasExtraItemActions
             ->icon(Heroicon::Cog6Tooth)
             ->size(Size::Small)
             ->visible(fn (Builder $component): bool => (! $component->isDisabled()) && $component->hasBlockPreviews());
+
+        if($this->isActionsGrouped()) {
+            $action->grouped();
+        }
 
         if ($this->modifyEditActionUsing) {
             $action = $this->evaluate($this->modifyEditActionUsing, [
