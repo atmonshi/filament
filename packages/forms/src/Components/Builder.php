@@ -26,9 +26,9 @@ class Builder extends Field implements CanConcealComponents, HasExtraItemActions
     use CanBeCollapsed;
     use Concerns\CanBeCloned;
     use Concerns\CanGenerateUuids;
+    use Concerns\CanGroupActions;
     use Concerns\CanLimitItemsLength;
     use Concerns\HasExtraItemActions;
-    use Concerns\CanGroupActions;
     use HasReorderAnimationDuration;
 
     /**
@@ -338,7 +338,7 @@ class Builder extends Field implements CanConcealComponents, HasExtraItemActions
             ->size(Size::Small)
             ->visible(fn (Builder $component): bool => $component->isCloneable());
 
-        if($this->isActionsGrouped()) {
+        if ($this->isActionsGrouped()) {
             $action->grouped();
         }
 
@@ -383,7 +383,7 @@ class Builder extends Field implements CanConcealComponents, HasExtraItemActions
             ->size(Size::Small)
             ->visible(fn (Builder $component): bool => $component->isDeletable());
 
-        if($this->isActionsGrouped()) {
+        if ($this->isActionsGrouped()) {
             $action->grouped();
         }
 
@@ -695,7 +695,7 @@ class Builder extends Field implements CanConcealComponents, HasExtraItemActions
             ->size(Size::Small)
             ->visible(fn (Builder $component): bool => (! $component->isDisabled()) && $component->hasBlockPreviews());
 
-        if($this->isActionsGrouped()) {
+        if ($this->isActionsGrouped()) {
             $action->grouped();
         }
 

@@ -32,9 +32,9 @@ class Repeater extends Field implements CanConcealComponents, HasExtraItemAction
     use CanBeCollapsed;
     use Concerns\CanBeCloned;
     use Concerns\CanGenerateUuids;
+    use Concerns\CanGroupActions;
     use Concerns\CanLimitItemsLength;
     use Concerns\HasExtraItemActions;
-    use Concerns\CanGroupActions;
     use HasContainerGridLayout;
     use HasReorderAnimationDuration;
 

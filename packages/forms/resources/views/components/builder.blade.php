@@ -206,9 +206,12 @@
                                             @endif
                                         @endcapture
 
-                                        @if($isActionsGrouped())
+                                        @if ($isActionsGrouped())
                                             <x-filament::dropdown>
-                                                <x-slot name="trigger" x-on:click.stop>
+                                                <x-slot
+                                                    name="trigger"
+                                                    x-on:click.stop
+                                                >
                                                     <x-filament::icon
                                                         alias="forms::builder.grouped.action"
                                                         icon="heroicon-o-ellipsis-vertical"
